@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# NextGen CareerNav 🚀
+
+**An AI-Powered Ecosystem for Predictive Job Matching, Skill Gap Analysis, and Intelligent Resume Optimization**
+
+> *PROJECT PROPOSAL & ACADEMIC ABSTRACT — Implemented as a Full-Stack Web Application*
+
+---
+
+## Project Abstract
+
+Traditional career counseling platforms heavily depend on static, rigid, keyword-dependent filtering mechanisms, frequently isolating candidates from actionable insights. **NextGen CareerNav** is an end-to-end intelligent ecosystem architected to dynamically align individual competencies with real-world, fast-evolving workforce demands.
+
+Leveraging comprehensive candidate profiles, skill indices, and target occupational profiles, the framework presents a multi-tiered Artificial Intelligence engine with three interdependent modules.
+
+**Keywords:** *Predictive Analytics, Career Navigation, Semantic Match, Large Language Models (LLMs), Skill Gap Analysis, Multi-Class Classification, Resume Optimization*
+
+---
+
+## Three AI Modules
+
+### Module 01 — Predictive Job Matching 🎯
+A supervised Multi-Class Classification model utilizing ensemble structures (XGBoost + Random Forests) to parse complex multidimensional skill matrix data, predicting highly relevant, tailored occupational tracks.
+
+### Module 02 — Skill Gap Analysis & AI Roadmap 🗺️
+A Generative AI Orchestration module that compares identified user profiles with market expectations, routing targeted deltas to an LLM to map customized **multi-month skill-acquisition roadmaps**.
+
+### Module 03 — Intelligent Resume Optimizer 📄
+An automated Resume Optimization layer that analyzes unstructured PDF text using semantic transformer architectures (Sentence-BERT), deriving structural cosine similarity scores and rewriting bullet points using metric-driven optimization algorithms.
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 14 (App Router) |
+| Styling | Vanilla CSS — Dark Glassmorphism Theme |
+| Charts | Chart.js + react-chartjs-2 (Radar Charts) |
+| ML Scoring | Cosine Similarity + Ensemble Skill Matching |
+| NLP | Sentence-BERT Semantic Scoring (simulated) |
+| LLM Roadmap | Generative AI Orchestration (simulated) |
+| Animations | Framer Motion + CSS Keyframes |
+| Persistence | localStorage / IndexedDB |
+
+---
+
+## Project Structure
+
+```
+careernav/
+├── app/
+│   ├── globals.css          ← Full design system (dark glassmorphism)
+│   ├── layout.js            ← Root layout + Google Fonts (Outfit + Inter)
+│   ├── page.js              ← Landing / Hero page
+│   ├── dashboard/page.js    ← Career Intelligence Dashboard
+│   ├── job-match/page.js    ← Module 1: Predictive Job Matching
+│   ├── skill-gap/page.js    ← Module 2: Skill Gap + AI Roadmap
+│   └── resume/page.js       ← Module 3: Resume Optimizer
+├── components/
+│   ├── Navbar.js            ← Glassmorphism navigation bar
+│   ├── ScoreRing.js         ← Animated SVG score ring
+│   └── SkillRadarChart.js   ← Radar chart for skill visualization
+├── lib/
+│   ├── mockData.js          ← 10 occupational profiles, 20 skill dimensions
+│   └── utils.js             ← Cosine similarity, gap analysis, roadmap generation
+└── package.json
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Pages & Routes
 
-## Learn More
+| Route | Description |
+|-------|-------------|
+| `/` | Hero landing — value props, 3 module cards, stats |
+| `/dashboard` | Career hub — stats, module progress, activity feed |
+| `/job-match` | Skill assessment form → AI job matching → radar chart |
+| `/skill-gap` | Gap visualization → 6-month AI learning roadmap |
+| `/resume` | PDF upload → similarity score → AI bullet rewrites |
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Design System
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Theme**: Deep Space Navy (`#08091a`) + Glassmorphism
+- **Accents**: Electric Blue `#4f8ef7` · Violet `#7c3aed` · Emerald `#10b981`
+- **Typography**: Outfit (headings) + Inter (body) — Google Fonts
+- **Effects**: Shimmer gradient text, floating orbs, hover glows, animated score rings
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*NextGen CareerNav democratizes strategic career development, offering highly scalable, precise, and transparent pathways for sustainable professional development.*

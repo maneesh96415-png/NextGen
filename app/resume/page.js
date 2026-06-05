@@ -239,17 +239,69 @@ export default function ResumePage() {
     setTimeout(() => setCopiedAll(false), 2000);
   };
 
-  const downloadCorrectedResume = () => {
+  const downloadCorrectedResume = async () => {
     if (!analysis || !analysis.correctedResumeText) return;
-    const blob = new Blob([analysis.correctedResumeText], { type: "text/plain;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = fileName ? fileName.replace(/\.[^/.]+$/, "") + "_optimized.txt" : "corrected_resume.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    
+    try {
+      const { jsPDF } = await import("jspdf");
+      const doc = new jsPDF({
+        orientation: "portrait",
+        unit: "mm",
+        format: "a4"
+      });
+
+      doc.setFont("helvetica", "normal");
+      
+      const pageHeight = doc.internal.pageSize.height;
+      const pageWidth = doc.internal.pageSize.width;
+      const margin = 20;
+      const maxLineWidth = pageWidth - (margin * 2);
+      
+      const rawLines = analysis.correctedResumeText.split("\n");
+      let formattedLines = [];
+      
+      for (const line of rawLines) {
+        if (line.trim() === "") {
+          formattedLines.push("");
+        } else {
+          const wrapped = doc.splitTextToSize(line, maxLineWidth);
+          formattedLines.push(...wrapped);
+        }
+      }
+
+      let y = margin;
+      const lineHeight = 6;
+      doc.setFontSize(10.5);
+
+      for (let i = 0; i < formattedLines.length; i++) {
+        const line = formattedLines[i];
+        
+        if (y + lineHeight > pageHeight - margin) {
+          doc.addPage();
+          y = margin;
+        }
+        
+        doc.text(line, margin, y);
+        y += lineHeight;
+      }
+
+      const outputFileName = fileName 
+        ? fileName.replace(/\.[^/.]+$/, "") + "_optimized.pdf" 
+        : "corrected_resume.pdf";
+        
+      doc.save(outputFileName);
+    } catch (error) {
+      console.error("Failed to generate PDF:", error);
+      const blob = new Blob([analysis.correctedResumeText], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName ? fileName.replace(/\.[^/.]+$/, "") + "_optimized.txt" : "corrected_resume.txt";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
   };
 
   const renderResumeWithDiffs = () => {
@@ -851,7 +903,7 @@ export default function ResumePage() {
                       className="btn btn-emerald btn-sm"
                       onClick={downloadCorrectedResume}
                     >
-                      📥 Download Corrected Resume (.txt)
+                      📥 Download Corrected Resume (.pdf)
                     </button>
                   </div>
 
@@ -915,7 +967,7 @@ export default function ResumePage() {
                   ← Analyze Another Resume
                 </button>
                 <button className="btn btn-emerald" onClick={downloadCorrectedResume}>
-                  📥 Download Corrected Resume (.txt)
+                  📥 Download Corrected Resume (.pdf)
                 </button>
                 <Link href="/skill-gap" className="btn btn-primary">
                   🗺️ View Skill Gap Analysis →

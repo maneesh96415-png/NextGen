@@ -239,6 +239,123 @@ export default function ResumePage() {
     setTimeout(() => setCopiedAll(false), 2000);
   };
 
+  const downloadCorrectedResume = () => {
+    if (!analysis || !analysis.correctedResumeText) return;
+    const blob = new Blob([analysis.correctedResumeText], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = fileName ? fileName.replace(/\.[^/.]+$/, "") + "_optimized.txt" : "corrected_resume.txt";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
+
+  const renderResumeWithDiffs = () => {
+    if (!analysis) return null;
+    const originalLines = resumeText.split("\n");
+    const diffMap = {};
+    if (analysis.inlineDiffs) {
+      analysis.inlineDiffs.forEach((d) => {
+        diffMap[d.lineIndex] = d;
+      });
+    }
+
+    const elements = [];
+    
+    for (let i = 0; i < originalLines.length; i++) {
+      const diff = diffMap[i];
+      
+      if (diff) {
+        if (diff.type === "summary_add") {
+          elements.push(
+            <div key={`diff-summary-add-${i}`} style={{
+              margin: "12px 0", padding: "14px", borderRadius: "var(--radius-sm)",
+              background: "rgba(16,185,129,0.08)", border: "1px dashed rgba(16,185,129,0.3)",
+              textAlign: "left",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
+                <span style={{ fontSize: "0.68rem", fontWeight: 700, color: "#10b981", textTransform: "uppercase" }}>
+                  ➕ AI Suggested Section (Injected Summary)
+                </span>
+                <span style={{
+                  fontSize: "0.65rem", fontWeight: 600, padding: "2px 8px", borderRadius: "100px",
+                  background: "rgba(16,185,129,0.15)", color: "#10b981",
+                }}>
+                  {diff.improvement}
+                </span>
+              </div>
+              <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: 8 }}>
+                <strong>Reason:</strong> {diff.reason}
+              </div>
+              <pre style={{ margin: 0, fontFamily: "monospace", fontSize: "0.8rem", color: "var(--text-primary)", whiteSpace: "pre-wrap", background: "rgba(0,0,0,0.2)", padding: "10px", borderRadius: "4px" }}>
+                {diff.replacementText}
+              </pre>
+            </div>
+          );
+          elements.push(
+            <div key={`line-${i}`} style={{ color: "var(--text-secondary)", opacity: 0.85 }}>
+              {originalLines[i]}
+            </div>
+          );
+        } else {
+          elements.push(
+            <div key={`diff-rewrite-${i}`} style={{
+              margin: "14px 0", padding: "16px", borderRadius: "var(--radius-sm)",
+              background: "rgba(255,255,255,0.02)", border: "1px solid var(--border-subtle)",
+              textAlign: "left",
+            }}>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+                <span style={{
+                  fontSize: "0.68rem", fontWeight: 700, 
+                  color: diff.type === "keyword_inject" ? "var(--accent-blue)" : "#f59e0b", 
+                  textTransform: "uppercase"
+                }}>
+                  ✏️ Line {i + 1}: {diff.type === "keyword_inject" ? "Keyword Injection" : "Bullet Rewrite"}
+                </span>
+                <span style={{
+                  fontSize: "0.65rem", fontWeight: 600, padding: "2px 8px", borderRadius: "100px",
+                  background: "rgba(79,142,247,0.15)", color: "var(--accent-blue)",
+                }}>
+                  {diff.improvement}
+                </span>
+              </div>
+              <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginBottom: 10 }}>
+                <strong>Reason:</strong> {diff.reason}
+              </div>
+              
+              <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                <div style={{
+                  padding: "8px 12px", borderRadius: "4px",
+                  background: "rgba(244,63,94,0.08)", borderLeft: "4px solid #f43f5e",
+                  textDecoration: "line-through", color: "rgba(226,232,240,0.6)",
+                }}>
+                  {diff.originalLine}
+                </div>
+                <div style={{
+                  padding: "8px 12px", borderRadius: "4px",
+                  background: "rgba(16,185,129,0.08)", borderLeft: "4px solid #10b981",
+                  color: "var(--text-primary)", fontWeight: 500,
+                }}>
+                  {diff.replacementLine}
+                </div>
+              </div>
+            </div>
+          );
+        }
+      } else {
+        elements.push(
+          <div key={`line-${i}`} style={{ color: "var(--text-secondary)", opacity: 0.85 }}>
+            {originalLines[i] || " "}
+          </div>
+        );
+      }
+    }
+    
+    return elements;
+  };
+
   const progressPct = loading ? Math.round((loadingStep / LOADING_STEPS.length) * 100) : 0;
 
   return (
@@ -496,6 +613,7 @@ export default function ResumePage() {
                   { id: "keywords", label: "🔍 Keywords" },
                   { id: "ats", label: "🤖 ATS Checks" },
                   { id: "bullets", label: "✨ AI Rewrites" },
+                  { id: "diff", label: "📝 Inline Diff" },
                   { id: "recommendations", label: "💡 Action Plan" },
                 ].map((t) => (
                   <TabBtn key={t.id} active={activeTab === t.id} onClick={() => setActiveTab(t.id)}>
@@ -717,6 +835,34 @@ export default function ResumePage() {
                 </div>
               )}
 
+              {/* ─────────────────────── TAB: INLINE DIFF ── */}
+              {activeTab === "diff" && (
+                <div className="animate-fade-in">
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }}>
+                    <div>
+                      <h3 style={{ fontSize: "1rem", fontWeight: 700, marginBottom: 4 }}>
+                        📝 Resume Inline Diff Suggestions
+                      </h3>
+                      <p style={{ fontSize: "0.82rem", color: "var(--text-muted)" }}>
+                        Surgical line-by-line updates. Review exactly which parts of your resume are changed.
+                      </p>
+                    </div>
+                    <button
+                      className="btn btn-emerald btn-sm"
+                      onClick={downloadCorrectedResume}
+                    >
+                      📥 Download Corrected Resume (.txt)
+                    </button>
+                  </div>
+
+                  <div className="glass-card" style={{ padding: 24, overflowX: "auto" }}>
+                    <div style={{ fontFamily: "monospace", fontSize: "0.82rem", lineHeight: 1.7, whiteSpace: "pre-wrap" }}>
+                      {renderResumeWithDiffs()}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* ─────────────────── TAB: RECOMMENDATIONS */}
               {activeTab === "recommendations" && (
                 <div className="animate-fade-in">
@@ -767,6 +913,9 @@ export default function ResumePage() {
               <div style={{ display: "flex", gap: 12, marginTop: 32, flexWrap: "wrap" }}>
                 <button className="btn btn-secondary" onClick={() => { setStep("upload"); setAnalysis(null); }}>
                   ← Analyze Another Resume
+                </button>
+                <button className="btn btn-emerald" onClick={downloadCorrectedResume}>
+                  📥 Download Corrected Resume (.txt)
                 </button>
                 <Link href="/skill-gap" className="btn btn-primary">
                   🗺️ View Skill Gap Analysis →

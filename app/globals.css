@@ -1407,5 +1407,37 @@ textarea.input-field {
   .resume-input-grid { grid-template-columns: 1fr !important; }
   .resume-score-grid { grid-template-columns: 1fr !important; }
   .resume-section-grid { grid-template-columns: 1fr !important; }
+  .quick-stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+  .star-guide-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
+  .ats-layout-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+}
+
+@media (max-width: 768px) {
+  .navbar-inner {
+    padding: 0 12px !important;
+  }
+  .navbar-logo span {
+    font-size: 1rem !important;
+  }
+  .navbar-nav {
+    gap: 2px !important;
+  }
+  .navbar-nav a {
+    font-size: 0 !important;
+    padding: 6px 8px !important;
+  }
+  .navbar-nav a span {
+    font-size: 1.15rem !important;
+    margin: 0 !important;
+  }
+  .navbar-inner .btn-primary {
+    display: none !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .quick-stats-grid, .star-guide-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
 

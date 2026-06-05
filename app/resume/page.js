@@ -440,7 +440,7 @@ export default function ResumePage() {
           ═══════════════════════════════════════════════ */}
           {step === "upload" && (
             <div className="animate-fade-in-up">
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 24 }}>
+              <div className="resume-input-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 28, marginBottom: 24 }}>
 
                 {/* Resume Panel */}
                 <div>
@@ -590,7 +590,7 @@ export default function ResumePage() {
             <div className="animate-fade-in-up">
 
               {/* ── Top Score Bar ──────────────────────── */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 140px 1fr", gap: 20, marginBottom: 28, alignItems: "center" }}>
+              <div className="resume-score-grid" style={{ display: "grid", gridTemplateColumns: "1fr 140px 1fr", gap: 20, marginBottom: 28, alignItems: "center" }}>
                 {/* Before */}
                 <div className="glass-card" style={{ padding: 28, display: "flex", gap: 20, alignItems: "center" }}>
                   <ScoreRing score={analysis.originalScore} size={110} label="Before" color={scoreColor(analysis.originalScore)} />
@@ -685,7 +685,7 @@ export default function ResumePage() {
               {/* ─────────────────────── TAB: OVERVIEW ─ */}
               {activeTab === "overview" && (
                 <div className="animate-fade-in">
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+                  <div className="resume-section-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
                     {analysis.sectionScores.map((sec) => (
                       <SectionScore key={sec.section} data={sec} />
                     ))}
@@ -694,7 +694,7 @@ export default function ResumePage() {
                   {/* Quick stats */}
                   <div className="glass-card" style={{ padding: 24 }}>
                     <div style={{ fontWeight: 700, fontSize: "0.88rem", marginBottom: 16 }}>Resume Statistics</div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                    <div className="quick-stats-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
                       {[
                         { label: "Word Count", val: analysis.wordCount, ideal: "250–800", icon: "📝" },
                         { label: "Total Bullets", val: analysis.bulletCount, ideal: "8–15 ideal", icon: "•" },
@@ -728,7 +728,7 @@ export default function ResumePage() {
               {/* ─────────────────────── TAB: KEYWORDS ─ */}
               {activeTab === "keywords" && (
                 <div className="animate-fade-in">
-                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
+                  <div className="resume-section-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 20, marginBottom: 20 }}>
                     {/* Matched */}
                     <div className="glass-card" style={{ padding: 24 }}>
                       <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 14 }}>
@@ -807,7 +807,7 @@ export default function ResumePage() {
               {/* ─────────────────────── TAB: ATS ────── */}
               {activeTab === "ats" && (
                 <div className="animate-fade-in">
-                  <div style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: 24 }}>
+                  <div className="ats-layout-grid" style={{ display: "grid", gridTemplateColumns: "300px 1fr", gap: 24 }}>
                     {/* ATS score ring */}
                     <div className="glass-card" style={{ padding: 28, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: 16 }}>
                       <ScoreRing score={analysis.atsData.atsScore} size={140} label="ATS Score" color={scoreColor(analysis.atsData.atsScore)} />
@@ -877,7 +877,7 @@ export default function ResumePage() {
                   {/* STAR method guide */}
                   <div className="glass-card" style={{ padding: 24, marginTop: 20 }}>
                     <div style={{ fontWeight: 700, fontSize: "0.88rem", marginBottom: 16 }}>📖 STAR Method Guide</div>
-                    <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+                    <div className="star-guide-grid" style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
                       {[
                         { letter: "S", word: "Situation", desc: "Set the context and background", color: "#4f8ef7" },
                         { letter: "T", word: "Task", desc: "Describe your responsibility", color: "#7c3aed" },

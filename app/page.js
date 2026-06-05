@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Link from "next/link";
+import Image from "next/image";
 
 const features = [
   {
@@ -65,7 +66,7 @@ export default function HomePage() {
     <>
       <Navbar />
       {/* ── HERO ─────────────────────────────────────────── */}
-      <section className="hero">
+      <section className="hero" style={{ minHeight: "100vh", alignItems: "center" }}>
         <div className="hero-bg">
           <div className="hero-orb hero-orb-1" />
           <div className="hero-orb hero-orb-2" />
@@ -79,50 +80,179 @@ export default function HomePage() {
         </div>
 
         <div className="hero-content" style={{ width: "100%" }}>
-          <div className="hero-eyebrow">
-            <span>✨</span> AI-POWERED CAREER ECOSYSTEM
-          </div>
+          {/* Two-column split */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 1fr",
+            gap: "64px",
+            alignItems: "center",
+          }}>
+            {/* ── LEFT: Text ─────────────────────────── */}
+            <div>
+              <div className="hero-eyebrow">
+                <span>✨</span> AI-POWERED CAREER ECOSYSTEM
+              </div>
 
-          <h1 className="hero-title">
-            Navigate Your Career<br />
-            <span className="shimmer-text">With AI Precision</span>
-          </h1>
+              <h1 className="hero-title">
+                Navigate Your Career<br />
+                <span className="shimmer-text">With AI Precision</span>
+              </h1>
 
-          <p className="hero-desc">
-            NextGen CareerNav dynamically aligns your individual competencies with real-world
-            workforce demands using predictive ML, generative AI, and semantic NLP — making
-            strategic career development accessible to everyone.
-          </p>
+              <p className="hero-desc">
+                NextGen CareerNav dynamically aligns your individual competencies with real-world
+                workforce demands using predictive ML, generative AI, and semantic NLP — making
+                strategic career development accessible to everyone.
+              </p>
 
-          <div className="hero-actions">
-            <Link href="/job-match" className="btn btn-primary btn-lg">
-              🚀 Start Job Matching
-            </Link>
-            <Link href="/dashboard" className="btn btn-secondary btn-lg">
-              📊 View Dashboard
-            </Link>
-          </div>
+              <div className="hero-actions">
+                <Link href="/job-match" className="btn btn-primary btn-lg">
+                  🚀 Start Job Matching
+                </Link>
+                <Link href="/dashboard" className="btn btn-secondary btn-lg">
+                  📊 View Dashboard
+                </Link>
+              </div>
 
-          <div className="hero-stats">
-            <div className="hero-stat">
-              <span className="hero-stat-value">20+</span>
-              <span className="hero-stat-label">Career Profiles</span>
+              <div className="hero-stats">
+                <div className="hero-stat">
+                  <span className="hero-stat-value">20+</span>
+                  <span className="hero-stat-label">Career Profiles</span>
+                </div>
+                <div className="hero-stat">
+                  <span className="hero-stat-value">20</span>
+                  <span className="hero-stat-label">Skills Assessed</span>
+                </div>
+                <div className="hero-stat">
+                  <span className="hero-stat-value">6-Mo</span>
+                  <span className="hero-stat-label">AI Roadmaps</span>
+                </div>
+                <div className="hero-stat">
+                  <span className="hero-stat-value">3</span>
+                  <span className="hero-stat-label">AI Modules</span>
+                </div>
+              </div>
             </div>
-            <div className="hero-stat">
-              <span className="hero-stat-value">20</span>
-              <span className="hero-stat-label">Skills Assessed</span>
-            </div>
-            <div className="hero-stat">
-              <span className="hero-stat-value">6-Mo</span>
-              <span className="hero-stat-label">AI Roadmaps</span>
-            </div>
-            <div className="hero-stat">
-              <span className="hero-stat-value">3</span>
-              <span className="hero-stat-label">AI Modules</span>
+
+            {/* ── RIGHT: AI Image ────────────────────── */}
+            <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+              {/* Glow backdrop behind image */}
+              <div style={{
+                position: "absolute",
+                width: "80%", height: "80%",
+                background: "radial-gradient(ellipse at center, rgba(79,142,247,0.18) 0%, rgba(124,58,237,0.12) 50%, transparent 75%)",
+                filter: "blur(40px)",
+                borderRadius: "50%",
+                animation: "float 6s ease-in-out infinite",
+              }} />
+
+              {/* Image container with glassmorphism border */}
+              <div style={{
+                position: "relative",
+                borderRadius: "24px",
+                overflow: "hidden",
+                border: "1px solid rgba(79,142,247,0.25)",
+                boxShadow: "0 0 60px rgba(79,142,247,0.15), 0 0 120px rgba(124,58,237,0.08), 0 24px 64px rgba(0,0,0,0.5)",
+                animation: "heroImageFloat 7s ease-in-out infinite",
+                background: "rgba(8,9,26,0.4)",
+                backdropFilter: "blur(4px)",
+                width: "100%",
+                maxWidth: 540,
+              }}>
+                <Image
+                  src="/hero-ai.png"
+                  alt="AI-powered career navigation dashboard visualization"
+                  width={540}
+                  height={460}
+                  style={{ display: "block", width: "100%", height: "auto", opacity: 0.95 }}
+                  priority
+                />
+
+                {/* Shimmer overlay on image */}
+                <div style={{
+                  position: "absolute", inset: 0,
+                  background: "linear-gradient(135deg, rgba(79,142,247,0.06) 0%, transparent 50%, rgba(124,58,237,0.06) 100%)",
+                  pointerEvents: "none",
+                }} />
+              </div>
+
+              {/* Floating badge: Match Score */}
+              <div style={{
+                position: "absolute", top: "10%", right: "-5%",
+                background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
+                border: "1px solid rgba(79,142,247,0.3)",
+                borderRadius: "16px", padding: "12px 18px",
+                boxShadow: "0 8px 32px rgba(79,142,247,0.2)",
+                animation: "badgeFloat1 4s ease-in-out infinite",
+                zIndex: 10,
+              }}>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: 4 }}>
+                  Top Match
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: "1.1rem" }}>🎯</span>
+                  <div>
+                    <div style={{ fontFamily: "Outfit", fontWeight: 800, fontSize: "1.1rem", color: "#10b981", lineHeight: 1 }}>
+                      94%
+                    </div>
+                    <div style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>Data Scientist</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating badge: Skill Gap */}
+              <div style={{
+                position: "absolute", bottom: "18%", left: "-6%",
+                background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
+                border: "1px solid rgba(124,58,237,0.3)",
+                borderRadius: "16px", padding: "12px 18px",
+                boxShadow: "0 8px 32px rgba(124,58,237,0.2)",
+                animation: "badgeFloat2 5s ease-in-out infinite",
+                zIndex: 10,
+              }}>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: 4 }}>
+                  Roadmap
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: "1.1rem" }}>🗺️</span>
+                  <div>
+                    <div style={{ fontFamily: "Outfit", fontWeight: 800, fontSize: "1.1rem", color: "#a78bfa", lineHeight: 1 }}>
+                      6 Months
+                    </div>
+                    <div style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>To Job-Ready</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating badge: Resume Score */}
+              <div style={{
+                position: "absolute", bottom: "8%", right: "2%",
+                background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
+                border: "1px solid rgba(16,185,129,0.3)",
+                borderRadius: "16px", padding: "12px 18px",
+                boxShadow: "0 8px 32px rgba(16,185,129,0.15)",
+                animation: "badgeFloat1 6s ease-in-out infinite 1s",
+                zIndex: 10,
+              }}>
+                <div style={{ fontSize: "0.65rem", color: "var(--text-muted)", fontWeight: 700, textTransform: "uppercase", marginBottom: 4 }}>
+                  Resume Score
+                </div>
+                <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                  <span style={{ fontSize: "1.1rem" }}>📄</span>
+                  <div>
+                    <div style={{ fontFamily: "Outfit", fontWeight: 800, fontSize: "1.1rem", color: "#10b981", lineHeight: 1 }}>
+                      +36 pts
+                    </div>
+                    <div style={{ fontSize: "0.68rem", color: "var(--text-muted)" }}>After AI Rewrite</div>
+                  </div>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
       </section>
+
 
       {/* ── MODULES ──────────────────────────────────────── */}
       <section style={{ padding: "100px 0", position: "relative", zIndex: 1 }}>

@@ -651,6 +651,22 @@ textarea.input-field {
   50% { transform: translateY(-20px) scale(1.05); }
 }
 
+@keyframes heroImageFloat {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-12px) rotate(0.5deg); }
+  66% { transform: translateY(-6px) rotate(-0.3deg); }
+}
+
+@keyframes badgeFloat1 {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
+}
+
+@keyframes badgeFloat2 {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(8px) scale(1.02); }
+}
+
 .hero-content {
   position: relative;
   z-index: 1;

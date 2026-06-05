@@ -1239,3 +1239,157 @@ textarea.input-field {
 .w-full { width: 100%; }
 .relative { position: relative; }
 .overflow-hidden { overflow: hidden; }
+
+/* ============================================================
+   RESUME OPTIMIZER ENHANCEMENTS
+   ============================================================ */
+
+/* Tab bar */
+.tab-bar {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 24px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tab-bar::-webkit-scrollbar { display: none; }
+
+/* ATS check animations */
+.ats-check-item {
+  transition: transform var(--transition-fast);
+}
+.ats-check-item:hover { transform: translateX(4px); }
+
+/* Bullet card hover glow */
+.bullet-card-optimized {
+  transition: all var(--transition-base);
+}
+.bullet-card-optimized:hover {
+  border-color: rgba(16, 185, 129, 0.35) !important;
+  box-shadow: 0 0 24px rgba(16, 185, 129, 0.12);
+}
+
+/* Loading steps progress dots */
+.loading-dots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.loading-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: background 0.3s ease;
+}
+.loading-dot.active {
+  background: var(--accent-blue);
+  box-shadow: 0 0 8px rgba(79, 142, 247, 0.6);
+}
+
+/* Keyword frequency bar */
+.keyword-freq-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+.keyword-freq-bar:hover { background: var(--bg-card-hover); }
+
+/* Section score number animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.score-number-animate {
+  animation: countUp 0.5s ease both;
+}
+
+/* Recommendation cards */
+.rec-card {
+  transition: all var(--transition-base);
+}
+.rec-card:hover {
+  transform: translateX(4px);
+}
+
+/* STAR method highlight */
+.star-letter {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  font-family: 'Outfit', sans-serif;
+  font-weight: 900;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* Copy button micro-animation */
+.copy-btn-success {
+  animation: scaleIn 0.2s ease;
+}
+
+/* Pipeline step indicators */
+.pipeline-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+  position: relative;
+}
+.pipeline-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  width: 100%;
+  height: 1px;
+  background: var(--border-subtle);
+}
+.pipeline-step-dot {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  position: relative;
+  z-index: 1;
+  transition: all var(--transition-base);
+}
+.pipeline-step-dot.completed {
+  background: rgba(16, 185, 129, 0.2);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  box-shadow: 0 0 12px rgba(16, 185, 129, 0.3);
+}
+.pipeline-step-dot.active {
+  background: rgba(79, 142, 247, 0.2);
+  border: 1px solid rgba(79, 142, 247, 0.4);
+  box-shadow: 0 0 12px rgba(79, 142, 247, 0.4);
+  animation: pulse-ring 1.2s ease infinite;
+}
+.pipeline-step-dot.pending {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+}
+
+@keyframes pulse-ring {
+  0%, 100% { box-shadow: 0 0 12px rgba(79, 142, 247, 0.4); }
+  50% { box-shadow: 0 0 24px rgba(79, 142, 247, 0.7); }
+}
+
+/* Responsive resume grid */
+@media (max-width: 900px) {
+  .resume-input-grid { grid-template-columns: 1fr !important; }
+  .resume-score-grid { grid-template-columns: 1fr !important; }
+  .resume-section-grid { grid-template-columns: 1fr !important; }
+}
+

@@ -1402,7 +1402,7 @@ textarea.input-field {
   50% { box-shadow: 0 0 24px rgba(79, 142, 247, 0.7); }
 }
 
-/* Responsive resume grid */
+/* Responsive resume grid & homepage */
 @media (max-width: 900px) {
   .resume-input-grid { grid-template-columns: 1fr !important; }
   .resume-score-grid { grid-template-columns: 1fr !important; }
@@ -1410,6 +1410,58 @@ textarea.input-field {
   .quick-stats-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
   .star-guide-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 12px !important; }
   .ats-layout-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+
+  /* Homepage Hero split */
+  .hero-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    text-align: center;
+  }
+  .hero-content {
+    padding: 40px 16px !important;
+  }
+  .hero-desc {
+    max-width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+  .hero-actions {
+    justify-content: center !important;
+    gap: 12px !important;
+  }
+  .hero-stats {
+    justify-content: center !important;
+    gap: 24px !important;
+  }
+  .hero-right-container {
+    margin-top: 24px !important;
+    width: 100% !important;
+    padding: 10px 0 !important;
+  }
+  .hero-title {
+    font-size: clamp(2rem, 6vw, 3rem) !important;
+  }
+
+  /* Under the Hood Feature section */
+  .feature-section-grid {
+    grid-template-columns: 1fr !important;
+    gap: 32px !important;
+  }
+  .feature-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 12px !important;
+  }
+
+  /* Footer container stack */
+  footer .container {
+    flex-direction: column !important;
+    text-align: center !important;
+    justify-content: center !important;
+    gap: 20px !important;
+  }
+  footer .container div, footer .container span {
+    justify-content: center !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1433,11 +1485,32 @@ textarea.input-field {
   .navbar-inner .btn-primary {
     display: none !important;
   }
+  
+  .under-the-hood-card {
+    padding: 24px !important;
+  }
 }
 
 @media (max-width: 600px) {
   .quick-stats-grid, .star-guide-grid {
     grid-template-columns: 1fr !important;
+  }
+  
+  /* Prevent floating badges from overflowing right/left off-screen */
+  .floating-badge-top {
+    right: 2% !important;
+    top: 5% !important;
+    transform: scale(0.9) !important;
+  }
+  .floating-badge-left {
+    left: 2% !important;
+    bottom: 25% !important;
+    transform: scale(0.9) !important;
+  }
+  .floating-badge-bottom {
+    right: 2% !important;
+    bottom: 5% !important;
+    transform: scale(0.9) !important;
   }
 }
 

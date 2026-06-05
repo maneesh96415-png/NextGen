@@ -81,7 +81,7 @@ export default function HomePage() {
 
         <div className="hero-content" style={{ width: "100%" }}>
           {/* Two-column split */}
-          <div style={{
+          <div className="hero-grid" style={{
             display: "grid",
             gridTemplateColumns: "1fr 1fr",
             gap: "64px",
@@ -134,7 +134,7 @@ export default function HomePage() {
             </div>
 
             {/* ── RIGHT: AI Image ────────────────────── */}
-            <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
+            <div className="hero-right-container" style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center" }}>
 
               {/* Glow backdrop behind image */}
               <div style={{
@@ -177,7 +177,7 @@ export default function HomePage() {
               </div>
 
               {/* Floating badge: Match Score */}
-              <div style={{
+              <div className="floating-badge-top" style={{
                 position: "absolute", top: "10%", right: "-5%",
                 background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
                 border: "1px solid rgba(79,142,247,0.3)",
@@ -201,7 +201,7 @@ export default function HomePage() {
               </div>
 
               {/* Floating badge: Skill Gap */}
-              <div style={{
+              <div className="floating-badge-left" style={{
                 position: "absolute", bottom: "18%", left: "-6%",
                 background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
                 border: "1px solid rgba(124,58,237,0.3)",
@@ -225,7 +225,7 @@ export default function HomePage() {
               </div>
 
               {/* Floating badge: Resume Score */}
-              <div style={{
+              <div className="floating-badge-bottom" style={{
                 position: "absolute", bottom: "8%", right: "2%",
                 background: "rgba(13,15,43,0.92)", backdropFilter: "blur(16px)",
                 border: "1px solid rgba(16,185,129,0.3)",
@@ -299,14 +299,14 @@ export default function HomePage() {
       <section style={{ padding: "0 0 100px", position: "relative", zIndex: 1 }}>
         <div className="container">
           <div
-            className="glass-card"
+            className="glass-card under-the-hood-card"
             style={{
               padding: "56px",
               background: "linear-gradient(135deg, rgba(79,142,247,0.06), rgba(124,58,237,0.04))",
               border: "1px solid rgba(79,142,247,0.15)",
             }}
           >
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
+            <div className="feature-section-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 48, alignItems: "center" }}>
               <div>
                 <div className="section-eyebrow">Under The Hood</div>
                 <h2 className="section-title" style={{ marginBottom: 16 }}>
@@ -324,7 +324,7 @@ export default function HomePage() {
                   </Link>
                 </div>
               </div>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+              <div className="feature-cards-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
                 {features.map((f) => (
                   <div
                     key={f.label}

@@ -181,6 +181,65 @@ function BulletCard({ b, index, kw }) {
   );
 }
 
+// ── Helper: Client-Side PDF.js Loader & Text Extractor ──────
+const loadPdfJS = () => {
+  return new Promise((resolve, reject) => {
+    if (typeof window === "undefined") {
+      reject(new Error("Cannot load PDF.js on server side"));
+      return;
+    }
+    if (window.pdfjsLib) {
+      resolve(window.pdfjsLib);
+      return;
+    }
+    const script = document.createElement("script");
+    script.src = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js";
+    script.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.worker.min.js";
+      resolve(window.pdfjsLib);
+    };
+    script.onerror = () => reject(new Error("Failed to load PDF.js CDN script"));
+    document.head.appendChild(script);
+  });
+};
+
+const extractTextFromPDF = async (file) => {
+  const pdfjsLib = await loadPdfJS();
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  let fullText = "";
+  
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const textContent = await page.getTextContent();
+    
+    // Sort text items top-to-bottom (Y descending), then left-to-right (X ascending)
+    const items = textContent.items.sort((a, b) => {
+      if (Math.abs(a.transform[5] - b.transform[5]) < 5) {
+        return a.transform[4] - b.transform[4];
+      }
+      return b.transform[5] - a.transform[5];
+    });
+    
+    let pageText = "";
+    let lastY = null;
+    
+    for (const item of items) {
+      if (lastY !== null && Math.abs(item.transform[5] - lastY) >= 5) {
+        pageText += "\n";
+      } else if (pageText !== "" && !pageText.endsWith("\n") && !pageText.endsWith(" ")) {
+        pageText += " ";
+      }
+      pageText += item.str;
+      lastY = item.transform[5];
+    }
+    
+    fullText += pageText + "\n\n";
+  }
+  
+  return fullText.trim();
+};
+
 // ── Main Page ─────────────────────────────────────────────
 export default function ResumePage() {
   const [step, setStep] = useState("upload");
@@ -202,15 +261,27 @@ export default function ResumePage() {
     setFileName("sample_resume.pdf (demo)");
   };
 
-  const handleFileDrop = useCallback((e) => {
+  const handleFileDrop = useCallback(async (e) => {
     e.preventDefault();
     setDragging(false);
     const file = e.dataTransfer?.files?.[0] || e.target?.files?.[0];
     if (!file) return;
     setFileName(file.name);
-    const reader = new FileReader();
-    reader.onload = (ev) => setResumeText(ev.target.result || "");
-    reader.readAsText(file);
+
+    if (file.name.toLowerCase().endsWith(".pdf")) {
+      try {
+        setResumeText("📄 Extracting text from PDF resume... Please wait.");
+        const text = await extractTextFromPDF(file);
+        setResumeText(text);
+      } catch (err) {
+        console.error("PDF extraction error:", err);
+        setResumeText("Error parsing PDF resume automatically. Please paste your resume text manually here.");
+      }
+    } else {
+      const reader = new FileReader();
+      reader.onload = (ev) => setResumeText(ev.target.result || "");
+      reader.readAsText(file);
+    }
   }, []);
 
   const handleAnalyze = async () => {
